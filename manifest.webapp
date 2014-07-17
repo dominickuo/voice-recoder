@@ -1,0 +1,38 @@
+{
+  "name": "Voice Recorder",
+  "description": "Gaia Voice Recorder",
+  "launch_path": "/index.html",
+  "permissions": {
+    "storage":{},
+    "device-storage:music":{ "access": "readwrite" },
+    "deprecated-hwvideo":{},
+    "audio-channel-content":{},
+    "nfc":{ "access": "readwrite" },
+    "audio-capture": { "description": "Required to capture audio via getUserMedia" }
+  },
+  "activities": {
+    "pick": {
+      "filters": {
+        "type": ["audio/*", "audio/mpeg", "audio/ogg", "audio/mp4"]
+       },
+      "disposition": "inline",
+      "returnValue": true,
+      "href": "/index.html"
+    }
+  },
+  "locales": {
+    "en-US": {
+      "name": "Voice Recorder",
+      "description": "Gaia Voice Recorder"
+    }
+  },
+  "default_locale": "en-US",
+  "icons": {
+    "84": "/style/icons/music_84.png",
+    "126": "/style/icons/music_126.png",
+    "142": "/style/icons/music_142.png",
+    "189": "/style/icons/music_189.png",
+    "284": "/style/icons/music_284.png"
+  },
+  "orientation": "default"
+}
