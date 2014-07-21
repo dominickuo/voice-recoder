@@ -22,7 +22,7 @@ li {
   color: white;
   border: 1px solid white;
   background-color: black;
-  transition: height 600ms ease-in-out;
+  transition: height 300ms ease-in-out;
   overflow: hidden;
 }
 

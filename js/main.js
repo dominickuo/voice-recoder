@@ -94,10 +94,13 @@ window.addEventListener('load', function() {
     var player = item.children[1];
     var index = event.target.dataset.index;
 
-    resetPreviewing();
-    item.classList.add('previewing');
+    if (index) {
+      resetPreviewing();
+      item.classList.add('previewing');
 
-    player.src = URL.createObjectURL(blobs[index]);
+      player.src = URL.createObjectURL(blobs[index]);
+      player.preload = 'metadata';
+    }
   }
 
   function resetPreviewing() {
