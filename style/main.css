@@ -40,9 +40,9 @@ audio {
   height: 9rem;
 }
 
-button {
-  height: 4.5rem;
-  font-size: large;
+button::-moz-focus-inner {
+  border: none;
+  outline: none;
 }
 
 #startpause,
@@ -50,12 +50,36 @@ button {
   position: absolute;
   width: calc(50% - 1.5rem);
   bottom: 1rem;
+  font-size: large;
+  font-weight: bold;
+  outline: none;
+  transition: opacity 166ms ease-in-out;
+}
+
+#startpause:active,
+#stop:active {
+  opacity: 0.5;
+}
+
+#startpause:focus,
+#stop:focus {
+  outline: none;
 }
 
 #startpause {
-  left: 1rem;
+  position: absolute;
+  width: 7rem;
+  height: 7rem;
+  left: calc(50% - 3.5rem);
+  border-radius: 50% 50%;
+  background-color: red;
 }
 
 #stop {
   right: 1rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50% 50%;
+  color: white;
+  background-color: black;
 }

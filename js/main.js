@@ -1,59 +1,80 @@
 'use strict';
 
 window.addEventListener('load', function() {
-  var isRecording = false;
+  var status = 'STOPPED';
   var list;
   var recordButton;
   var stopButton;
-  var mediaRecorder;
+  var mediaRecorder = null;
   var chunks = [];
   var blobs = [];
   var index = 0;
 
-  function init() {
-    navigator.getUserMedia = (navigator.getUserMedia || navigator.mozGetUserMedia);
-  }
-
   function setup() {
+    navigator.getUserMedia = (navigator.getUserMedia || navigator.mozGetUserMedia);
+
     list = document.getElementById('list');
     recordButton = document.getElementById('startpause');
     stopButton = document.getElementById('stop');
 
-    recordButton.addEventListener('click', function(event) {
-      var constraints = { audio: true };
+    recordButton.addEventListener('click', record);
+    stopButton.addEventListener('click', stop);
+  }
 
-      if (!isRecording) {
+  function changeStatus(option) {
+    status = option;
+    alert(status);
+  }
+
+  function record() {
+    switch(status) {
+      case 'STOPPED':
+        var constraints = { audio: true };
         navigator.getUserMedia(constraints, getAudioStream, errorCallBack);
-      } else {
-        // Pause the recording.
-        alert('pause');
+        break;
+      case 'RECORDING':
         mediaRecorder.pause();
-      }
-    });
+        changeStatus('PAUSED');
+        break;
+      case 'PAUSED':
+        mediaRecorder.resume();
+        changeStatus('RECORDING');
+        break;
+    }
+  }
 
-    stopButton.addEventListener('click', function(event) {
-      alert('stop');
+  function stop() {
+    if (mediaRecorder) {
       mediaRecorder.stop();
 
       mediaRecorder.onstop = function(event) {
-       // Make blob out of our blobs, and open it.
-       var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-       parseRecorded(blob, addToList);
-       chunks = [];
-     };
-    });
+        // Make blob out of our blobs, and open it.
+        var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+        parseRecorded(blob, addToList);
+
+        mediaRecorder = null;
+        chunks = [];
+      };
+
+      changeStatus('STOPPED');
+    }
   }
 
   function getAudioStream(stream) {
-    mediaRecorder = new MediaRecorder(stream);
+    if (!mediaRecorder) {
+      mediaRecorder = new MediaRecorder(stream);
 
-    alert('start');
-    mediaRecorder.start();
+      mediaRecorder.start();
+    } else {
+      mediaRecorder.resume();
+    }
 
     mediaRecorder.ondataavailable = function(event) {
       // push each chunk (blobs) in an array
       chunks.push(event.data);
     };
+
+    changeStatus('RECORDING');
   }
 
   function errorCallBack(e) {
@@ -109,6 +130,5 @@ window.addEventListener('load', function() {
     });
   }
 
-  init();
   setup();
 });
