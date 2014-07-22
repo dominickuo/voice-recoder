@@ -5,6 +5,7 @@ window.addEventListener('load', function() {
   var list;
   var recordButton;
   var stopButton;
+  var overlay;
   var mediaRecorder = null;
   var chunks = [];
   var blobs = [];
@@ -16,14 +17,20 @@ window.addEventListener('load', function() {
     list = document.getElementById('list');
     recordButton = document.getElementById('startpause');
     stopButton = document.getElementById('stop');
+    overlay = document.getElementById('overlay');
 
     recordButton.addEventListener('click', record);
     stopButton.addEventListener('click', stop);
+
+    changeStatus('STOPPED');
   }
 
   function changeStatus(option) {
     status = option;
-    alert(status);
+    overlay.hidden = (status === 'STOPPED');
+
+    var message = document.getElementById('message');
+    message.textContent = status;
   }
 
   function record() {
