@@ -31,6 +31,7 @@ window.addEventListener('load', function() {
 
     var message = document.getElementById('message');
     message.textContent = status;
+    message.classList.toggle('paused', (status === 'PAUSED'));
   }
 
   function record() {

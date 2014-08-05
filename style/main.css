@@ -116,3 +116,7 @@ button::-moz-focus-inner {
 #message {
   animation: twinkling 1s ease-in-out infinite alternate;
 }
+
+#message.paused {
+  animation: none;
+}
